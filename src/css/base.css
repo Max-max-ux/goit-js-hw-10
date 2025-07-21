@@ -30,3 +30,11 @@ main {
 main:has(.back-link) {
   text-align: center;
 }
+
+h1 {
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
