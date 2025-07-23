@@ -3,93 +3,93 @@
 }
 
 .form {
-  width: 400px;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  margin: 15px auto;
+    width: 400px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin: 15px auto;
 }
 
 .delay {
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-  color: #2e2f42;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 8px;
-  margin-bottom: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: #2e2f42;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .delay-input {
-  border: 1px solid #808080;
-  border-radius: 4px;
-  width: 360px;
-  height: 40px;
-  background-color: transparent;
-  padding-left: 15px;
-  transition: border-color 300ms ease;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    width: 360px;
+    height: 40px;
+    background-color: transparent;
+    padding-left: 15px;
+    transition: border-color 300ms ease;
 }
 
 .delay-input:hover {
-    border-color:  #000;
+    border-color: #000;
 }
 
 .delay-input:focus {
     border-color: #4e75ff;
 }
 
-.field {
+.field-state {
     border-radius: 4px;
-stroke-width: 1px;
-stroke: #808080;
-display: flex;
-justify-content: space-between;
-flex-direction: row;
-padding-left: 48px;
-padding-right: 48px;
-margin-bottom: 24px;
- transition: border-color 300ms ease;
+    stroke-width: 1px;
+    stroke: #808080;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-left: 48px;
+    padding-right: 48px;
+    margin-bottom: 24px;
+    transition: border-color 300ms ease;
 }
 
-.field:hover {
-    border-color:  #000;
+.field-state:hover {
+    border-color: #000;
 }
 
-.field > input:checked {
-    border-color:  #000;
+.field-state>input:checked {
+    border-color: #000;
 }
 
 .field-descr {
     line-height: 1.5;
-letter-spacing: 0.04em;
-color: #2e2f42;
-text-align: left;
-margin-left: -30px;
+    letter-spacing: 0.04em;
+    color: #2e2f42;
+    text-align: left;
+    margin-left: -30px;
 }
 
 .field-check {
     line-height: 1.5;
-color: #2e2f42;
+    color: #2e2f42;
 }
 
 .create-btn {
     border-radius: 8px;
-padding: 8px 16px;
-width: 360px;
-height: 40px;
-border: none;
-background-color: #4e75ff;
-font-weight: 500;
-line-height: 1.5;
-letter-spacing: 0.04em;
-color: #fff;
+    padding: 8px 16px;
+    width: 360px;
+    height: 40px;
+    border: none;
+    background-color: #4e75ff;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: #fff;
 }
 
 
 .iziToast {
-  font-size: 18px;       
-  padding: 20px 30px;    
-  min-width: 500px;   
-  border-radius: 5px;  
+    font-size: 18px;
+    padding: 20px 30px;
+    min-width: 500px;
+    border-radius: 5px;
 }

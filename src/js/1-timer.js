@@ -1,107 +1,81 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-const startBtn = document.querySelector("[data-start]");
-const dateInput = document.querySelector("#datetime-picker");
+const refs = {
+  input: document.querySelector('#datetime-picker'),
+  startBtn: document.querySelector('[data-start]'),
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+};
 
-
-const daysReflection = document.querySelector("[data-days]");
-const hoursReflection = document.querySelector("[data-hours]");
-const minutesReflection = document.querySelector("[data-minutes]");
-const secondsReflection = document.querySelector("[data-seconds]");
-
-startBtn.disabled = true;
-
-let userSelectedDate = null;
+let chosenDate = null;
 let timerId = null;
 
-const options = {
+refs.startBtn.disabled = true;
+
+const fpOptions = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-    const now = new Date();
-
-    if(selectedDate <= now) {
-        startBtn.disabled = true;
-        iziToast.warning({
-            message: "Please choose a date in the future",
-            position: "topRight",
-            backgroundColor: "red",
-            timeout: 3000,
-            progressBar: false,
-            messageColor: "white",
-            icon: "",
-            iconUrl: new URL('../img/error.svg', import.meta.url).href,
-        })
-    } else {
-        userSelectedDate = selectedDate;
-        startBtn.disabled = false;
+    const picked = selectedDates[0];
+    if (picked <= Date.now()) {
+      iziToast.error({
+        message: "Please choose a date in the future",
+        position: "topRight",
+      });
+      refs.startBtn.disabled = true;
+      return;
     }
+    chosenDate = picked;
+    refs.startBtn.disabled = false;
   },
 };
 
-flatpickr(dateInput, options);
+flatpickr(refs.input, fpOptions);
 
-startBtn.addEventListener("click", handleClick);
+refs.startBtn.addEventListener('click', () => {
+  refs.startBtn.disabled = true;
+  refs.input.disabled = true;
+  timerId = setInterval(() => {
+    const diff = chosenDate - Date.now();
+    if (diff <= 0) {
+      clearInterval(timerId);
+      updateTimer({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      refs.input.disabled = false;
+      return;
+    }
+    updateTimer(convertMs(diff));
+  }, 1000);
+});
 
-function handleClick() {
-    if(!userSelectedDate) return;
+function updateTimer({ days, hours, minutes, seconds }) {
+  refs.days.textContent = pad(days);
+  refs.hours.textContent = pad(hours);
+  refs.minutes.textContent = pad(minutes);
+  refs.seconds.textContent = pad(seconds);
+}
 
-    startBtn.disabled = true;
-    dateInput.disabled = true;
-
-    timerId = setInterval(() => {
-        const now = new Date();
-        const difference = userSelectedDate - now;
-
-        if(difference <= 0) {
-            clearInterval(timerId);
-            updateTimerInterface({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-            dateInput.disabled = false;
-            return;
-        }
-
-        const time = convertMs(difference);
-         updateTimerInterface(time);
-
-    }, 1000);
+function pad(value) {
+  return String(value).padStart(2, '0');
 }
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  // Remaining days
-  const days = Math.floor(ms / day);
-  // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-  return { days, hours, minutes, seconds };
-}
-
-function addLeadingZero(value) {
-    return String(value).padStart(2, "0");
-}
-
-
-function updateTimerInterface({ days, hours, minutes, seconds}) {
-    daysReflection.textContent = addLeadingZero(days);
-    hoursReflection.textContent = addLeadingZero(hours);
-    minutesReflection.textContent = addLeadingZero(minutes);
-    secondsReflection.textContent = addLeadingZero(seconds);
+  const sec = 1000;
+  const min = sec * 60;
+  const hr = min * 60;
+  const d = hr * 24;
+  return {
+    days: Math.floor(ms / d),
+    hours: Math.floor((ms % d) / hr),
+    minutes: Math.floor((ms % hr) / min),
+    seconds: Math.floor((ms % min) / sec),
+  };
 }
 
 
